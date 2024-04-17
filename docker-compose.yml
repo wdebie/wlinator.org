@@ -1,0 +1,20 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./conf:/etc/nginx/conf.d/
+      - ./wiki:/usr/share/nginx/wiki
+      - ./html:/usr/share/nginx/html
+      - ./certs:/usr/share/nginx/certs
+    ports:
+      - 443:443
+    depends_on:
+      - fpm
+
+  fpm:
+    image: php:fpm
+    ports:
+      - ":9000"
+    volumes:
+      - ./wiki:/usr/share/nginx/wiki
