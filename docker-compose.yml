@@ -2,6 +2,7 @@ version: '3'
 services:
   nginx:
     image: nginx:latest
+    restart: always
     volumes:
       - ./conf:/etc/nginx/conf.d/
       - ./wiki:/usr/share/nginx/wiki
@@ -14,6 +15,7 @@ services:
 
   fpm:
     image: php:fpm
+    restart: always
     ports:
       - ":9000"
     volumes:
