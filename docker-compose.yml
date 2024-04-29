@@ -20,20 +20,31 @@ services:
     volumes:
       - ./wiki:/usr/share/nginx/wiki
 
-  gitea:
-    image: gitea/gitea:1.21.10
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:7
     environment:
       - USER_UID=1000
       - USER_GID=1000
     restart: always
     volumes:
-      - gitea:/data
+      - forgejo:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "3000:3000"
-      - "222:22"
+      - ":3000"
 
+  opengist:
+    image: ghcr.io/thomiceli/opengist:1.7
+    restart: always
+    environment:
+      - OG_CUSTOM_LOGO=logo.png
+      - OG_CUSTOM_FAVICON=logo.png
+      - OG_SSH_GIT_ENABLED=false
+    ports:
+      - ":6157" # HTTP port
+    volumes:
+      - "./opengist:/opengist"
+    
 volumes:
-  gitea:
+  forgejo:
     driver: local
